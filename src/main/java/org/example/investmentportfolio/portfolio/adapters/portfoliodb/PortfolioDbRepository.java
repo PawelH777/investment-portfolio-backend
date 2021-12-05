@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.example.investmentportfolio.portfolio.domain.model.Portfolio;
+import org.example.investmentportfolio.portfolio.domain.ports.PortfolioRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class PortfolioRepository {
+public class PortfolioDbRepository implements PortfolioRepository {
 
     @Inject
     private MongoClient mongoClient;
