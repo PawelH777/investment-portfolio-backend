@@ -4,14 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Builder
-public class Portfolio {
+public class Asset {
 
   private String name;
 
-  private List<Asset> assets;
+  private BigDecimal cashContribution;
+
+  private BigDecimal deviationFromCashContribution;
 }

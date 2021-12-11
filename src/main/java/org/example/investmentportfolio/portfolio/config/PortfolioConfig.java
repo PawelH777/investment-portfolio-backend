@@ -8,8 +8,8 @@ import javax.enterprise.inject.Produces;
 @Dependent
 public class PortfolioConfig {
 
-    @Produces
-    public DummyService dummyService() {
+  @Produces
+  public DummyService dummyService() {
         return new DummyService();
     }
 }

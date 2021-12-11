@@ -1,5 +1,7 @@
 package org.example.investmentportfolio.portfolio.adapters.api;
 
+import org.example.investmentportfolio.portfolio.adapters.common.model.PortfolioDto;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,24 +14,28 @@ import java.util.List;
 @ApplicationScoped
 public class PortfolioEndpoint {
 
-    private final PortfolioFacade portfolioFacade;
+  private static final String SAVE_PORTFOLIO_SUCCESS_MESSAGE =
+      "Portfolio has been saved in database";
+  private static final String SAVE_PORTFOLIO_ERROR_MESSAGE = "Portfolio hasn't been saved :(";
 
-    private final DummyFacade dummyFacade;
+  private final PortfolioFacade portfolioFacade;
 
-    public PortfolioEndpoint(final PortfolioFacade portfolioFacade, final DummyFacade dummyFacade) {
-        this.portfolioFacade = portfolioFacade;
-        this.dummyFacade = dummyFacade;
-    }
+  private final DummyFacade dummyFacade;
 
-    @POST
-    public String save(final PortfolioRequest request) {
-        portfolioFacade.save(request);
-        return "";
-    }
+  public PortfolioEndpoint(final PortfolioFacade portfolioFacade, final DummyFacade dummyFacade) {
+    this.portfolioFacade = portfolioFacade;
+    this.dummyFacade = dummyFacade;
+  }
 
-    @GET
-    public List<PortfolioResponse> getPortfolios() {
-        dummyFacade.save();
-        return portfolioFacade.getPortfolios();
-    }
+  @POST
+  public String save(final PortfolioDto request) {
+    final boolean isSaved = portfolioFacade.save(request);
+    return isSaved ? SAVE_PORTFOLIO_SUCCESS_MESSAGE : SAVE_PORTFOLIO_ERROR_MESSAGE;
+  }
+
+  @GET
+  public List<PortfolioDto> getPortfolios() {
+    dummyFacade.save();
+    return portfolioFacade.getPortfolios();
+  }
 }

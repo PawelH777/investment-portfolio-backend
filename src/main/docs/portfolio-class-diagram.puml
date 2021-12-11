@@ -1,0 +1,121 @@
+@startuml
+
+package "adapters" {
+    package "api" {
+        class DummyFacade {
+            ~ void save()
+        }
+
+        class PortfolioEndpoint {
+            + String save(PortfolioDto request)
+            + List<PortfolioDto> getPortfolios()
+        }
+
+        class PortfolioFacade {
+            + boolean save(PortfolioDto request)
+            + List<PortfolioDto> getPortfolios()
+        }
+    }
+
+    package "portfoliodb" {
+        class PortfolioDbRepository {
+            + boolean save(Portfolio portfolio)
+            + List<Portfolio> getPortfolios()
+        }
+    }
+
+    package "common" {
+        package "model" as adapterModel  {
+             class PortfolioDto {
+                - String name
+                - List<AssetDto> assets
+                + String getName()
+                + void setName(String name)
+                + List<AssetDto> getAssets()
+                + void setAssets(List<Asset> assets)
+                + PortfolioDto of(Portfolio portfolio)
+             }
+
+            class AssetDto {
+                - String name
+                - BigDecimal cashContribution
+                - BigDecimal deviationFromCashContribution
+                + String getName()
+                + void setName(String name)
+                + BigDecimal getCashContribution()
+                + void setCashContribution(BigDecimal cashContribution)
+                + BigDecimal getDeviationFromCashContribution()
+                + void setDeviationFromCashContribution(BigDecimal deviationFromCashContribution)
+            }
+        }
+    }
+}
+
+package "config" {
+    class PortfolioConfig {
+        + DummyService dummyService()
+    }
+}
+
+package "domain" {
+    package "model" as domainModel {
+        class Portfolio {
+            - String name
+            - List<Asset> assets
+            + String getName()
+            + void setName(String name)
+            + List<Asset> getAssets()
+            + void setAssets(List<Asset> assets)
+            + BigDecimal getIncome()
+            + BigDecimal getCurrentPortfolioValue()
+        }
+
+        class Asset {
+            - String name
+            - BigDecimal cashContribution
+            - BigDecimal deviationFromCashContribution
+            + String getName()
+            + void setName(String name)
+            + BigDecimal getCashContribution()
+            + void setCashContribution(BigDecimal cashContribution)
+            + BigDecimal getDeviationFromCashContribution()
+            + void setDeviationFromCashContribution(BigDecimal deviationFromCashContribution)
+            + BigDecimal getIncome()
+            + BigDecimal getCurrentAssetValue()
+        }
+    }
+
+    package ports {
+        class DummySevice {
+            ~ void save()
+        }
+
+        interface PortfolioRepository {
+            + boolean save(Portfolio portfolio)
+            + List<Portfolio> getPortfolios()
+        }
+    }
+}
+
+
+"adapterModel" -[hidden]-> "portfoliodb"
+
+"portfoliodb" -[hidden]> "api"
+
+"config" -[hidden]-> "domain"
+
+"ports" -[hidden]-> "domainModel"
+
+
+skinparam legendBackgroundColor #ffffff
+legend
+
+|= field |= method |=  |
+|  <img:http://s.plantuml.com/private-field.png>     |   <img:http://s.plantuml.com/private-method.png>     | private |
+|  <img:http://s.plantuml.com/protected-field.png>   |   <img:http://s.plantuml.com/protected-method.png>   | protected |
+|  <img:http://s.plantuml.com/package-private-field.png>     |   <img:http://s.plantuml.com/package-private-method.png>    | package private |
+|  <img:http://s.plantuml.com/public-field.png>     |   <img:http://s.plantuml.com/public-method.png>     | public |
+
+endlegend
+
+@enduml
