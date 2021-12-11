@@ -11,6 +11,13 @@ import java.math.BigDecimal;
 @Builder
 public class Asset {
 
+  public static final String ASSET_NAME_PROPERTY = "name";
+
+  public static final String ASSET_CASH_CONTRIBUTION_PROPERTY = "cashContribution";
+
+  public static final String ASSET_DEVIATION_FROM_CASH_CONTRIBUTION_PROPERTY =
+      "deviationFromCashContribution";
+
   private String name;
 
   private BigDecimal cashContribution;
