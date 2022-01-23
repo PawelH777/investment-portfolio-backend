@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'io.quarkus'
-    id 'org.liquibase.gradle' version '2.1.0'
 }
 
 group 'org.example'
@@ -17,7 +16,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy:2.6.1.Final'
     implementation 'io.quarkus:quarkus-mongodb-client:2.6.1.Final'
     implementation 'io.quarkus:quarkus-container-image-docker:2.6.1.Final'
-    implementation 'org.jboss.resteasy:resteasy-jackson2-provider:5.0.1.Final'
+    implementation 'org.jboss.resteasy:resteasy-jackson2-provider:6.0.0.Final'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
@@ -26,11 +25,6 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-
-    liquibaseRuntime 'org.liquibase:liquibase-core:4.6.2'
-    liquibaseRuntime 'org.liquibase:liquibase-groovy-dsl:3.0.2'
-    liquibaseRuntime 'info.picocli:picocli:4.6.2'
-    liquibaseRuntime 'mysql:mysql-connector-java:8.0.25'
 }
 
 test {
@@ -49,16 +43,4 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
-}
-
-liquibase {
-    activities {
-        main {
-            changeLogFile 'src/main/db/main.groovy'
-            url 'mongodb://localhost:27017'
-            username 'username'
-            password 'password'
-        }
-        runList = 'main'
-    }
 }
